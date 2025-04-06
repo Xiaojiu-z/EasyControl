@@ -401,7 +401,7 @@ The code of EasyControl is released under [Apache License](https://github.com/Xi
 Reach out: **jmliu1217@gmail.com (wechat: jiaming068870)**
 
 ## Citation
-```
+```bibtex
 @misc{zhang2025easycontroladdingefficientflexible,
       title={EasyControl: Adding Efficient and Flexible Control for Diffusion Transformer}, 
       author={Yuxuan Zhang and Yirui Yuan and Yiren Song and Haofan Wang and Jiaming Liu},
