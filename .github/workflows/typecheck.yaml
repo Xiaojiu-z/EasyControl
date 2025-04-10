@@ -1,0 +1,73 @@
+name: Typecheck
+
+# These checks will run if at least one file is outside of the `paths-ignore`
+# list, but will be skipped if *all* files are in the `paths-ignore` list.
+#
+# Fore more info, see:
+# https://docs.github.com/en/actions/writing-workflows/workflow-syntax-for-github-actions#example-excluding-paths
+
+on:
+  push:
+    branches:
+      - 'main'
+    paths-ignore:
+      - '**.jpeg'
+      - '**.jpg'
+      - '**.md'
+      - '**.png'
+      - '**.webp'
+
+  pull_request:
+    branches:
+      - 'main'
+    paths-ignore:
+      - '**.jpeg'
+      - '**.jpg'
+      - '**.md'
+      - '**.png'
+      - '**.webp'
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ 'ubuntu-24.04' ]
+        python: [ '3.10' ]
+
+    runs-on: ${{ matrix.os }}
+    name: Python ${{ matrix.python }} on ${{ matrix.os }}
+
+    steps:
+      - name: Checkout the repo
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+          cache: 'pip'
+
+      - name: Update pip
+        run: python -m pip install --upgrade pip
+
+      - name: Install Python deps
+        run: python -m pip install -r requirements.txt
+
+      - name: Install Mypy
+        run: python -m pip install mypy
+
+      - name: Check types with Mypy
+        run: python -m mypy --python-version=${{ matrix.python }} .
+        # TODO: fix the type checking errors and remove this line to make errors
+        # obvious by failing the test.
+        continue-on-error: true
+
+      - name: Install PyType
+        run: python -m pip install pytype
+
+      - name: Check types with PyType
+        run: python -m pytype --python-version=${{ matrix.python }} -k .
+        # TODO: fix the type checking errors and remove this line to make errors
+        # obvious by failing the test.
+        continue-on-error: true
