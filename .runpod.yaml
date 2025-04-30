@@ -1,6 +1,6 @@
 name: easycontrol-api
-image: python:3.10-slim
-gpu: false
+image: runpod/pytorch:2.1.2-py3.10-cuda12.1.0
+gpu: true
 volumeMountPath: /app
 startCommand: |
   pip install -r requirements.txt
