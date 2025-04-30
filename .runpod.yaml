@@ -1,0 +1,7 @@
+name: easycontrol-api
+image: python:3.10-slim
+gpu: false
+volumeMountPath: /app
+startCommand: |
+  pip install -r requirements.txt
+  python app.py
